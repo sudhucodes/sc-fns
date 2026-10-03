@@ -101,7 +101,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/sudhucodes/sc-fns"
+        "url": "git+https://github.com/sudhucodes/sc-fns.git"
     },
     "bugs": {
         "url": "https://github.com/sudhucodes/sc-fns/issues"
