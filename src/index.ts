@@ -1,5 +1,5 @@
 /**
- * sc-utils - A lightweight, production-ready, dependency-free TypeScript utility library.
+ * sc-fns - A lightweight, production-ready, dependency-free TypeScript utility library.
  *
  * @packageDocumentation
  */

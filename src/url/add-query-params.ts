@@ -8,8 +8,8 @@
  *
  * @example
  * ```ts
- * addQueryParams("https://example.com/search?q=sc-utils", { page: 2, sort: "desc" });
- * // "https://example.com/search?q=sc-utils&page=2&sort=desc"
+ * addQueryParams("https://example.com/search?q=sc-fns", { page: 2, sort: "desc" });
+ * // "https://example.com/search?q=sc-fns&page=2&sort=desc"
  *
  * addQueryParams("/api/users", { active: true });
  * // "/api/users?active=true"

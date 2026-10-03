@@ -1,11 +1,19 @@
 {
-    "name": "sc-utils",
+    "name": "sc-fns",
     "version": "0.0.1",
     "description": "A lightweight, production-ready, dependency-free TypeScript utility library.",
     "type": "module",
     "main": "./dist/index.cjs",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint src/",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "prepublishOnly": "pnpm run typecheck && pnpm run lint && pnpm run build"
+    },
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -73,18 +81,8 @@
         "README.md",
         "LICENSE"
     ],
-    "scripts": {
-        "build": "tsup",
-        "typecheck": "tsc --noEmit",
-        "test": "vitest run",
-        "test:watch": "vitest",
-        "lint": "eslint src/ tests/",
-        "format": "prettier --write \"src/**/*.{ts,js,json}\" \"tests/**/*.{ts,js,json}\"",
-        "format:check": "prettier --check \"src/**/*.{ts,js,json}\" \"tests/**/*.{ts,js,json}\"",
-        "prepublishOnly": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build"
-    },
     "keywords": [
-        "sc-utils",
+        "sc-fns",
         "utilities",
         "typescript",
         "helper",
@@ -103,12 +101,12 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/sudhucodes/sc-utils"
+        "url": "https://github.com/sudhucodes/sc-fns"
     },
     "bugs": {
-        "url": "https://github.com/sudhucodes/sc-utils/issues"
+        "url": "https://github.com/sudhucodes/sc-fns/issues"
     },
-    "homepage": "https://github.com/sudhucodes/sc-utils#readme",
+    "homepage": "https://github.com/sudhucodes/sc-fns#readme",
     "devDependencies": {
         "@eslint/js": "^9.20.0",
         "eslint": "^9.20.0",

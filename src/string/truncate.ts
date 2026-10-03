@@ -10,7 +10,7 @@
  * ```ts
  * truncate("Hello World!", 8); // "Hello..."
  * truncate("Short", 10); // "Short"
- * truncate("sc-utils library", 7, "…"); // "sc-uti…"
+ * truncate("sc-fns library", 7, "…"); // "sc-uti…"
  * ```
  */
 export function truncate(str: string, length: number, suffix = "..."): string {

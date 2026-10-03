@@ -31,7 +31,7 @@ export interface DebouncedFunction<T extends (...args: any[]) => any> {
  * ```ts
  * const debouncedSearch = debounce((query: string) => fetchResults(query), 300);
  * debouncedSearch("sc");
- * debouncedSearch("sc-utils"); // Only this final call executes after 300ms
+ * debouncedSearch("sc-fns"); // Only this final call executes after 300ms
  * ```
  */
 export function debounce<T extends (...args: any[]) => any>(
