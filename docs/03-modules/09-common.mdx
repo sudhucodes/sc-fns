@@ -1,0 +1,161 @@
+---
+title: Common & Async Utilities
+description: Async helpers, debounce, throttle, retry, timeout, sleep, and execution flow controllers in sc-fns/common.
+icon: Clock
+---
+
+The `sc-fns/common` module provides essential asynchronous utilities and function execution modifiers.
+
+```ts
+import { sleep, debounce, throttle, retry, timeout, once, noop, identity } from "sc-fns/common";
+```
+
+---
+
+## `sleep`
+
+Returns a Promise that resolves after a specified number of milliseconds.
+
+### Signature
+
+```ts
+function sleep(ms: number): Promise<void>;
+```
+
+### Examples
+
+```ts
+async function run() {
+    console.log("Waiting...");
+    await sleep(1500); // Pauses for 1.5 seconds
+    console.log("Resumed!");
+}
+```
+
+---
+
+## `debounce`
+
+Creates a debounced version of a function that delays invocation until after `wait` milliseconds have elapsed since the last call. Includes `.cancel()`, `.flush()`, and `.pending()` controls.
+
+### Signature
+
+```ts
+function debounce<T extends (...args: any[]) => any>(
+    fn: T,
+    wait: number,
+    options?: { leading?: boolean; trailing?: boolean },
+): DebouncedFunction<T>;
+```
+
+### Examples
+
+```ts
+const handleSearch = debounce((query: string) => {
+    fetch(`/api/search?q=${query}`);
+}, 300);
+
+// Call on each key stroke:
+handleSearch("r");
+handleSearch("re");
+handleSearch("react"); // Only this final call executes after 300ms!
+
+// Cancel pending call:
+handleSearch.cancel();
+```
+
+---
+
+## `throttle`
+
+Creates a throttled function that invokes at most once per every `wait` milliseconds.
+
+### Signature
+
+```ts
+function throttle<T extends (...args: any[]) => any>(
+    fn: T,
+    wait: number,
+    options?: { leading?: boolean; trailing?: boolean },
+): ThrottledFunction<T>;
+```
+
+### Examples
+
+```ts
+const handleScroll = throttle(() => {
+    console.log("Scroll position:", window.scrollY);
+}, 200);
+
+window.addEventListener("scroll", handleScroll);
+```
+
+---
+
+## `retry`
+
+Retries an asynchronous operation upon rejection, supporting customizable attempt counts, delays, and exponential backoff.
+
+### Signature
+
+```ts
+function retry<T>(
+    fn: () => Promise<T>,
+    options?: {
+        retries?: number; // Default: 3
+        delay?: number; // Default: 1000ms
+        backoff?: number; // Default: 2 (multiplies delay after each attempt)
+        onRetry?: (error: unknown, attempt: number) => void;
+    },
+): Promise<T>;
+```
+
+### Examples
+
+```ts
+const data = await retry(() => fetch("https://api.unreliable.com/data").then((res) => res.json()), {
+    retries: 3,
+    delay: 500,
+    backoff: 2,
+    onRetry: (err, attempt) => console.warn(`Retry attempt #${attempt}`, err),
+});
+```
+
+---
+
+## `timeout`
+
+Wraps a promise with a timeout deadline. If the promise does not resolve within `ms` milliseconds, it rejects with a timeout error.
+
+### Signature
+
+```ts
+function timeout<T>(promise: Promise<T>, ms: number, error?: Error | string): Promise<T>;
+```
+
+### Examples
+
+```ts
+try {
+    const result = await timeout(fetchData(), 5000, "Request timed out after 5s");
+} catch (err) {
+    console.error(err);
+}
+```
+
+---
+
+## `once`, `noop`, `identity`
+
+Small execution flow utilities:
+
+```ts
+// Executes initialization logic exactly once, caching the result
+const initializeDatabase = once(() => connectToDB());
+
+// Safe no-operation default
+const onComplete = callback ?? noop;
+
+// Identity pass-through
+[1, 2, 3].map(identity);
+```

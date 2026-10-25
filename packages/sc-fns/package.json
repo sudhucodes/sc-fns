@@ -1,0 +1,120 @@
+{
+    "name": "sc-fns",
+    "version": "0.0.1",
+    "description": "A lightweight, production-ready, dependency-free TypeScript utility library.",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint src/",
+        "test": "vitest run",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "prepublishOnly": "pnpm run typecheck && pnpm run lint && pnpm run build"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./string": {
+            "types": "./dist/string/index.d.ts",
+            "import": "./dist/string/index.js",
+            "require": "./dist/string/index.cjs"
+        },
+        "./id": {
+            "types": "./dist/id/index.d.ts",
+            "import": "./dist/id/index.js",
+            "require": "./dist/id/index.cjs"
+        },
+        "./array": {
+            "types": "./dist/array/index.d.ts",
+            "import": "./dist/array/index.js",
+            "require": "./dist/array/index.cjs"
+        },
+        "./number": {
+            "types": "./dist/number/index.d.ts",
+            "import": "./dist/number/index.js",
+            "require": "./dist/number/index.cjs"
+        },
+        "./object": {
+            "types": "./dist/object/index.d.ts",
+            "import": "./dist/object/index.js",
+            "require": "./dist/object/index.cjs"
+        },
+        "./date": {
+            "types": "./dist/date/index.d.ts",
+            "import": "./dist/date/index.js",
+            "require": "./dist/date/index.cjs"
+        },
+        "./validation": {
+            "types": "./dist/validation/index.d.ts",
+            "import": "./dist/validation/index.js",
+            "require": "./dist/validation/index.cjs"
+        },
+        "./url": {
+            "types": "./dist/url/index.d.ts",
+            "import": "./dist/url/index.js",
+            "require": "./dist/url/index.cjs"
+        },
+        "./common": {
+            "types": "./dist/common/index.d.ts",
+            "import": "./dist/common/index.js",
+            "require": "./dist/common/index.cjs"
+        },
+        "./file": {
+            "types": "./dist/file/index.d.ts",
+            "import": "./dist/file/index.js",
+            "require": "./dist/file/index.cjs"
+        },
+        "./browser": {
+            "types": "./dist/browser/index.d.ts",
+            "import": "./dist/browser/index.js",
+            "require": "./dist/browser/index.cjs"
+        }
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "keywords": [
+        "sc-fns",
+        "utilities",
+        "typescript",
+        "helper",
+        "string",
+        "array",
+        "object",
+        "date",
+        "url",
+        "random",
+        "validation",
+        "tree-shakeable",
+        "zero-dependency",
+        "esm"
+    ],
+    "author": "SudhuCodes",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sudhucodes/sc-fns.git"
+    },
+    "bugs": {
+        "url": "https://github.com/sudhucodes/sc-fns/issues"
+    },
+    "homepage": "https://github.com/sudhucodes/sc-fns#readme",
+    "devDependencies": {
+        "@eslint/js": "^9.20.0",
+        "eslint": "^9.20.0",
+        "prettier": "^3.5.1",
+        "tsup": "^8.3.6",
+        "typescript": "^5.7.3",
+        "typescript-eslint": "^8.24.0",
+        "vitest": "^3.0.5"
+    }
+}

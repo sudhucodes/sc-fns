@@ -1,0 +1,98 @@
+---
+title: File & Byte Utilities
+description: File size formatting, extension extraction, and MIME type helpers in sc-fns/file.
+icon: FileText
+---
+
+The `sc-fns/file` module provides helpers for parsing file paths, extensions, formatting byte counts, and media type detection.
+
+```ts
+import {
+    getFileExtension,
+    getFileName,
+    formatFileSize,
+    isImage,
+    isVideo,
+    isPDF,
+} from "sc-fns/file";
+```
+
+---
+
+## `formatFileSize`
+
+Converts a byte count into a human-readable size string (`B`, `KB`, `MB`, `GB`, `TB`, `PB`).
+
+### Signature
+
+```ts
+function formatFileSize(bytes: number, decimals?: number): string; // Default decimals: 2
+```
+
+### Examples
+
+```ts
+formatFileSize(512); // "512 B"
+formatFileSize(1024); // "1 KB"
+formatFileSize(1024 * 1024 * 4.5); // "4.5 MB"
+formatFileSize(10737418240); // "10 GB"
+```
+
+---
+
+## `getFileExtension`
+
+Extracts the lowercase file extension from a filename or path without the leading dot.
+
+### Signature
+
+```ts
+function getFileExtension(filename: string): string;
+```
+
+### Examples
+
+```ts
+getFileExtension("report.final.PDF"); // "pdf"
+getFileExtension("/var/data/archive.tar.gz"); // "gz"
+getFileExtension("noextension"); // ""
+```
+
+---
+
+## `getFileName`
+
+Extracts the basename from a file path, with an option to include or exclude the extension.
+
+### Signature
+
+```ts
+function getFileName(path: string, includeExt?: boolean): string; // Default includeExt: true
+```
+
+### Examples
+
+```ts
+getFileName("/uploads/images/avatar.png"); // "avatar.png"
+getFileName("/uploads/images/avatar.png", false); // "avatar"
+```
+
+---
+
+## Media Guards: `isImage`, `isVideo`, `isPDF`
+
+Tests if a filename, extension, or MIME type represents an image, video, or PDF document.
+
+### Examples
+
+```ts
+isImage("photo.jpeg"); // true
+isImage("image/png"); // true
+isImage("presentation.pptx"); // false
+
+isVideo("trailer.mp4"); // true
+isVideo("video/webm"); // true
+
+isPDF("contract.pdf"); // true
+isPDF("application/pdf"); // true
+```

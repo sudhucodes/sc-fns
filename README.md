@@ -3,9 +3,48 @@
 A lightweight, production-ready, dependency-free TypeScript utility library for JavaScript and TypeScript developers.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)]()
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)]()
-[![Tree Shakeable](https://img.shields.io/badge/tree--shakeable-yes-success.svg)]()
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](<>)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](<>)
+[![Tree Shakeable](https://img.shields.io/badge/tree--shakeable-yes-success.svg)](<>)
+
+---
+
+## Monorepo Architecture (Turborepo)
+
+This repository is powered by **Turborepo** and **pnpm workspaces**:
+
+```
+.
+├── apps/
+│   └── web/            # Next.js interactive documentation & playground web app
+├── packages/
+│   └── sc-fns/         # The core sc-fns library package (published to npm)
+├── turbo.json          # Turborepo task pipeline configuration
+├── pnpm-workspace.yaml # Workspace definitions
+└── package.json        # Root monorepo scripts
+```
+
+### Commands
+
+```bash
+# Install all dependencies across the monorepo
+pnpm install
+
+# Start development servers (Next.js web app & watch tasks)
+pnpm dev
+
+# Build all packages & apps with Turborepo caching
+pnpm build
+
+# Run TypeScript checks across all workspaces
+pnpm typecheck
+
+# Lint all projects
+pnpm lint
+
+# Format code with Prettier
+pnpm format
+```
 
 ---
 

@@ -1,0 +1,121 @@
+---
+title: Import Styles & Tree-Shaking
+description: Learn how to import utilities from sc-fns for optimal developer experience and zero bundle waste.
+icon: Zap
+---
+
+## Import Strategies
+
+`sc-fns` supports two flexible import patterns:
+
+### 1. Subpath Imports (Recommended for Frontend Bundles)
+
+Subpath imports allow bundlers (Vite, webpack, Rollup, Turbopack, esbuild) to only load the specific file for that namespace. This guarantees minimum bundle footprint and lightning-fast build resolution.
+
+```ts
+import { slugify, capitalizeWords } from "sc-fns/string";
+import { generateUUID, generateOTP } from "sc-fns/id";
+import { chunkArray, shuffleArray } from "sc-fns/array";
+import { clamp, formatNumber } from "sc-fns/number";
+import { pick, omit } from "sc-fns/object";
+import { formatDate, formatRelativeTime } from "sc-fns/date";
+import { isEmail, isURL } from "sc-fns/validation";
+import { buildURL } from "sc-fns/url";
+import { debounce, retry } from "sc-fns/common";
+import { formatFileSize } from "sc-fns/file";
+import { copyToClipboard } from "sc-fns/browser";
+```
+
+### 2. Root Import (Convenient for Backend / Full-Stack)
+
+You can also import any utility directly from the root package `"sc-fns"`. Because all functions are marked as side-effect free, modern bundlers will automatically tree-shake unused exports in production builds:
+
+```ts
+import { slugify, generateUUID, chunkArray, clamp, formatDate, isEmail } from "sc-fns";
+```
+
+---
+
+## Package Exports Map
+
+The package defines explicit Node.js export mappings in `package.json`:
+
+```json
+{
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./string": {
+            "types": "./dist/string/index.d.ts",
+            "import": "./dist/string/index.js",
+            "require": "./dist/string/index.cjs"
+        },
+        "./id": {
+            "types": "./dist/id/index.d.ts",
+            "import": "./dist/id/index.js",
+            "require": "./dist/id/index.cjs"
+        },
+        "./array": {
+            "types": "./dist/array/index.d.ts",
+            "import": "./dist/array/index.js",
+            "require": "./dist/array/index.cjs"
+        },
+        "./number": {
+            "types": "./dist/number/index.d.ts",
+            "import": "./dist/number/index.js",
+            "require": "./dist/number/index.cjs"
+        },
+        "./object": {
+            "types": "./dist/object/index.d.ts",
+            "import": "./dist/object/index.js",
+            "require": "./dist/object/index.cjs"
+        },
+        "./date": {
+            "types": "./dist/date/index.d.ts",
+            "import": "./dist/date/index.js",
+            "require": "./dist/date/index.cjs"
+        },
+        "./validation": {
+            "types": "./dist/validation/index.d.ts",
+            "import": "./dist/validation/index.js",
+            "require": "./dist/validation/index.cjs"
+        },
+        "./url": {
+            "types": "./dist/url/index.d.ts",
+            "import": "./dist/url/index.js",
+            "require": "./dist/url/index.cjs"
+        },
+        "./common": {
+            "types": "./dist/common/index.d.ts",
+            "import": "./dist/common/index.js",
+            "require": "./dist/common/index.cjs"
+        },
+        "./file": {
+            "types": "./dist/file/index.d.ts",
+            "import": "./dist/file/index.js",
+            "require": "./dist/file/index.cjs"
+        },
+        "./browser": {
+            "types": "./dist/browser/index.d.ts",
+            "import": "./dist/browser/index.js",
+            "require": "./dist/browser/index.cjs"
+        }
+    }
+}
+```
+
+---
+
+## Immutability Guarantee
+
+All functions in `sc-fns` follow functional, non-mutating principles. Calling functions like `shuffleArray()`, `chunkArray()`, or `omit()` will **never** modify the original data passed in:
+
+```ts
+const original = [1, 2, 3];
+const shuffled = shuffleArray(original);
+
+console.log(original); // [1, 2, 3] (Untouched!)
+```

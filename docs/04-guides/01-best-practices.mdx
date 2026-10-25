@@ -1,0 +1,95 @@
+---
+title: Best Practices & Performance
+description: Architectural guidelines, immutability patterns, and bundle optimization techniques when using sc-fns.
+icon: Shield
+---
+
+## 1. Always Prefer Subpath Imports in Frontend Bundles
+
+While `import { slugify } from "sc-fns"` is supported and tree-shakeable, using explicit subpath imports (`import { slugify } from "sc-fns/string"`) offers concrete advantages:
+
+- **Faster Developer Server HMR**: Bundlers only parse and transform the single module file rather than the full package index.
+- **Strict Isolation**: Guarantees that Node-specific APIs (such as `crypto`) are not accidentally touched when importing string or number helpers.
+- **Smaller Module Graphs**: Reduces the number of internal AST nodes your bundler needs to evaluate during production compilation.
+
+```ts
+// Recommended for client components & frontend code:
+import { slugify } from "sc-fns/string";
+import { formatNumber } from "sc-fns/number";
+```
+
+---
+
+## 2. Embrace Non-Mutating Patterns
+
+All array and object utilities in `sc-fns` are designed as pure functions. They never mutate arguments in place:
+
+```ts
+import { shuffleArray, removeItem } from "sc-fns/array";
+
+const state = [1, 2, 3, 4];
+
+// Safe for React state and Redux reducers:
+const nextState = removeItem(state, 2);
+
+console.log(state); // [1, 2, 3, 4] (Unchanged!)
+console.log(nextState); // [1, 3, 4]
+```
+
+This pattern makes `sc-fns` ideal for:
+
+- React state updates (`setState(prev => removeItem(prev, id))`)
+- Redux and Zustand store reducers
+- Concurrency-safe backend request handlers
+
+---
+
+## 3. Leverage TypeScript Return Types and Generics
+
+Functions like `pick`, `omit`, and `groupBy` provide exact TypeScript type contracts:
+
+```ts
+import { pick } from "sc-fns/object";
+
+interface UserProfile {
+    id: string;
+    name: string;
+    email: string;
+    secretKey: string;
+}
+
+const user: UserProfile = {
+    id: "u_1",
+    name: "Sam",
+    email: "sam@example.com",
+    secretKey: "k_982",
+};
+
+// Return type is strictly Pick<UserProfile, "id" | "name">:
+const safeUser = pick(user, ["id", "name"]);
+// safeUser.email -> Type Error!
+```
+
+---
+
+## 4. Debouncing and Throttling in React
+
+When using `debounce` or `throttle` inside React components, remember to wrap them with `useCallback` or `useMemo` so that new timers are not instantiated on every component render:
+
+```tsx
+import { useMemo, useEffect } from "react";
+import { debounce } from "sc-fns/common";
+
+export function SearchInput({ onSearch }: { onSearch: (val: string) => void }) {
+    const debouncedSearch = useMemo(
+        () => debounce((val: string) => onSearch(val), 300),
+        [onSearch],
+    );
+
+    useEffect(() => {
+        return () => debouncedSearch.cancel();
+    }, [debouncedSearch]);
+
+    return <input onChange={(e) => debouncedSearch(e.target.value)} />;
+}
+```

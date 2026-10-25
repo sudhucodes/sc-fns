@@ -1,0 +1,210 @@
+---
+title: Array Utilities
+description: Pure, non-mutating array manipulation functions in sc-fns/array.
+icon: List
+---
+
+The `sc-fns/array` module provides pure, non-mutating array helpers for chunking, shuffling, deduplication, grouping, and sampling.
+
+```ts
+import {
+    shuffleArray,
+    randomItem,
+    randomItems,
+    chunkArray,
+    uniqueArray,
+    uniqueBy,
+    flattenArray,
+    groupBy,
+    removeItem,
+    moveItem,
+} from "sc-fns/array";
+```
+
+---
+
+## `shuffleArray`
+
+Randomly shuffles an array using the Fisher-Yates algorithm. Returns a **new** array without mutating the original input.
+
+### Signature
+
+```ts
+function shuffleArray<T>(array: readonly T[]): T[];
+```
+
+### Examples
+
+```ts
+const items = [1, 2, 3, 4, 5];
+const shuffled = shuffleArray(items);
+
+console.log(shuffled); // e.g. [3, 1, 5, 2, 4]
+console.log(items); // [1, 2, 3, 4, 5] (Unmodified)
+```
+
+---
+
+## `chunkArray`
+
+Splits an array into smaller sub-arrays (chunks) of a specified maximum size.
+
+### Signature
+
+```ts
+function chunkArray<T>(array: readonly T[], size: number): T[][];
+```
+
+### Examples
+
+```ts
+chunkArray([1, 2, 3, 4, 5, 6, 7], 3);
+// [[1, 2, 3], [4, 5, 6], [7]]
+```
+
+---
+
+## `uniqueArray`
+
+Deduplicates an array of primitive values while preserving order.
+
+### Signature
+
+```ts
+function uniqueArray<T>(array: readonly T[]): T[];
+```
+
+### Examples
+
+```ts
+uniqueArray([1, 2, 2, 3, 4, 4, 1]);
+// [1, 2, 3, 4]
+
+uniqueArray(["apple", "banana", "apple"]);
+// ["apple", "banana"]
+```
+
+---
+
+## `uniqueBy`
+
+Deduplicates an array of objects based on a property key or an iteratee function.
+
+### Signature
+
+```ts
+function uniqueBy<T, K>(array: readonly T[], iteratee: keyof T | ((item: T) => K)): T[];
+```
+
+### Examples
+
+```ts
+const users = [
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" },
+    { id: 1, name: "Alice Duplicate" },
+];
+
+uniqueBy(users, "id");
+// [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
+
+uniqueBy(users, (u) => u.name.toLowerCase());
+```
+
+---
+
+## `randomItem` & `randomItems`
+
+Picks one or multiple random items from an array.
+
+### Signatures
+
+```ts
+function randomItem<T>(array: readonly T[]): T | undefined;
+
+function randomItems<T>(
+    array: readonly T[],
+    count: number,
+    options?: { replacement?: boolean },
+): T[];
+```
+
+### Examples
+
+```ts
+const colors = ["red", "green", "blue", "yellow"];
+
+randomItem(colors);
+// "blue"
+
+randomItems(colors, 2);
+// ["green", "red"]
+```
+
+---
+
+## `groupBy`
+
+Groups elements of an array by a property key or custom discriminator function into an object dictionary.
+
+### Signature
+
+```ts
+function groupBy<T, K extends PropertyKey>(
+    array: readonly T[],
+    iteratee: keyof T | ((item: T) => K),
+): Record<K, T[]>;
+```
+
+### Examples
+
+```ts
+const products = [
+    { name: "Laptop", category: "tech" },
+    { name: "Coffee", category: "food" },
+    { name: "Phone", category: "tech" },
+];
+
+groupBy(products, "category");
+// {
+//   tech: [{ name: "Laptop", ... }, { name: "Phone", ... }],
+//   food: [{ name: "Coffee", ... }]
+// }
+```
+
+---
+
+## `flattenArray`
+
+Flattens nested arrays up to a specified depth (defaults to `1`).
+
+### Signature
+
+```ts
+function flattenArray<T>(array: readonly any[], depth?: number): T[];
+```
+
+### Examples
+
+```ts
+flattenArray([1, [2, [3, 4]]], 1); // [1, 2, [3, 4]]
+flattenArray([1, [2, [3, 4]]], 2); // [1, 2, 3, 4]
+```
+
+---
+
+## `removeItem` & `moveItem`
+
+Non-mutating utilities to remove or reorder items.
+
+### Examples
+
+```ts
+// Remove an item by value or predicate
+removeItem([10, 20, 30, 40], 20); // [10, 30, 40]
+removeItem(users, (u) => u.id === 2);
+
+// Move item from index 0 to index 2
+moveItem(["a", "b", "c", "d"], 0, 2);
+// ["b", "c", "a", "d"]
+```

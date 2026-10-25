@@ -1,0 +1,165 @@
+---
+title: Object Utilities
+description: Object transformation, picking, omitting, deep cloning, and deep merging in sc-fns/object.
+icon: Box
+---
+
+The `sc-fns/object` module provides type-safe object transformations, property filtering, and deep cloning.
+
+```ts
+import {
+    isEmpty,
+    pick,
+    omit,
+    deepClone,
+    deepMerge,
+    removeUndefined,
+    removeNull,
+} from "sc-fns/object";
+```
+
+---
+
+## `isEmpty`
+
+Checks if a value is empty. Returns `true` for:
+
+- `null` and `undefined`
+- Empty strings `""`
+- Empty arrays `[]`
+- Empty Maps and Sets
+- Empty plain objects `{}`
+
+### Signature
+
+```ts
+function isEmpty(value: unknown): boolean;
+```
+
+### Examples
+
+```ts
+isEmpty({}); // true
+isEmpty([]); // true
+isEmpty(""); // true
+isEmpty(null); // true
+isEmpty({ a: 1 }); // false
+isEmpty([10]); // false
+```
+
+---
+
+## `pick`
+
+Creates a new shallow copy of an object containing only the specified keys. Full TypeScript type inference is preserved.
+
+### Signature
+
+```ts
+function pick<T extends object, K extends keyof T>(object: T, keys: readonly K[]): Pick<T, K>;
+```
+
+### Examples
+
+```ts
+const user = {
+    id: 101,
+    name: "Jane Doe",
+    email: "jane@example.com",
+    passwordHash: "secret",
+    role: "admin",
+};
+
+const publicUser = pick(user, ["id", "name", "email"]);
+// { id: 101, name: "Jane Doe", email: "jane@example.com" }
+```
+
+---
+
+## `omit`
+
+Creates a new shallow copy of an object excluding the specified keys.
+
+### Signature
+
+```ts
+function omit<T extends object, K extends keyof T>(object: T, keys: readonly K[]): Omit<T, K>;
+```
+
+### Examples
+
+```ts
+const userWithoutSecrets = omit(user, ["passwordHash"]);
+// Excludes 'passwordHash'
+```
+
+---
+
+## `deepClone`
+
+Deeply clones objects, arrays, Dates, RegExps, Maps, and Sets. Uses `structuredClone` when available natively with a comprehensive fallback.
+
+### Signature
+
+```ts
+function deepClone<T>(value: T): T;
+```
+
+### Examples
+
+```ts
+const original = {
+    user: { name: "Alice", prefs: { darkTheme: true } },
+    tags: ["admin", "beta"],
+};
+
+const clone = deepClone(original);
+clone.user.prefs.darkTheme = false;
+
+console.log(original.user.prefs.darkTheme); // true (Original is unaffected!)
+```
+
+---
+
+## `deepMerge`
+
+Recursively merges multiple source objects into a target object without prototype pollution vulnerabilities.
+
+### Signature
+
+```ts
+function deepMerge<T extends object>(target: T, ...sources: Partial<T>[]): T;
+```
+
+### Examples
+
+```ts
+const defaults = { api: { timeout: 5000, retries: 3 }, debug: false };
+const overrides = { api: { timeout: 10000 }, debug: true };
+
+const config = deepMerge(defaults, overrides);
+// {
+//   api: { timeout: 10000, retries: 3 },
+//   debug: true
+// }
+```
+
+---
+
+## `removeUndefined` & `removeNull`
+
+Creates a clean object with all `undefined` or `null` values removed. Supports shallow and deep recursion.
+
+### Examples
+
+```ts
+removeUndefined({ id: 1, name: "Bob", title: undefined });
+// { id: 1, name: "Bob" }
+
+removeNull({ id: 2, profile: null, active: true });
+// { id: 2, active: true }
+
+// Deep removal
+removeUndefined({ a: 1, nested: { b: undefined, c: 2 } }, true);
+// { a: 1, nested: { c: 2 } }
+```

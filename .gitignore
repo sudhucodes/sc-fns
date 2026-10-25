@@ -4,6 +4,10 @@ node_modules/
 
 # Build artifacts
 dist/
+.turbo/
+.next/
+.docstra/
+out/
 
 # Test coverage
 coverage/

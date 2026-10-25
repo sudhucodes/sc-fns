@@ -1,0 +1,36 @@
+---
+title: Comparison with Other Libraries
+description: How sc-fns compares against Lodash, Ramda, and native Web APIs in bundle size and modern features.
+icon: Scale
+---
+
+## Overview
+
+When building modern web applications and microservices, picking utility dependencies directly influences bundle weight, cold-start performance, and supply-chain risk.
+
+| Metric / Feature          | `sc-fns`                         | `lodash-es`                 | `ramda`                 |
+| :------------------------ | :------------------------------- | :-------------------------- | :---------------------- |
+| **External Dependencies** | **0** (Zero)                     | Multiple internal packages  | Multiple                |
+| **TypeScript Native**     | **100% Strict**                  | Requires `@types/lodash-es` | Requires `@types/ramda` |
+| **Modern Web Standards**  | Built on `crypto`, `Intl`, `URL` | Custom legacy polyfills     | Custom implementations  |
+| **Subpath Node Exports**  | First-class (`package.json`)     | Inconsistent                | Limited                 |
+| **Bundle Footprint**      | Extremely minimal                | Up to 70 kB full bundle     | ~50 kB                  |
+| **Pure & Non-Mutating**   | Guaranteed 100%                  | Some mutating helpers       | Pure                    |
+
+---
+
+## Zero-Dependency Guarantee
+
+Large utility libraries often pull in dozens of nested packages (e.g., `lodash.debounce`, `lodash.throttle`, `is-plain-object`), which complicates package management, locks down older engines, and inflates lockfiles.
+
+`sc-fns` has **no external dependencies whatsoever**. Its entire codebase compiles directly down to clean modern JavaScript with standard ES2022+ syntax.
+
+---
+
+## Native Web API Integration
+
+Instead of re-implementing custom string parsers or legacy random number generators, `sc-fns` builds directly on top of fast, native platform capabilities:
+
+- **Cryptographic UUIDs**: Uses native `crypto.randomUUID()` when supported (Node 18+, modern browsers).
+- **Internationalization**: Uses `Intl.NumberFormat` for currency, decimals, and compact notation.
+- **URL Handling**: Uses standard `URL` and `URLSearchParams` interfaces with cross-platform URL safety.

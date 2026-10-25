@@ -1,0 +1,120 @@
+---
+title: Installation
+description: How to install and configure sc-fns in your JavaScript or TypeScript projects.
+icon: Download
+---
+
+## Package Manager Installation
+
+Install `sc-fns` using your package manager of choice:
+
+### pnpm (Recommended)
+
+```bash
+pnpm add sc-fns
+```
+
+### npm
+
+```bash
+npm install sc-fns
+```
+
+### yarn
+
+```bash
+yarn add sc-fns
+```
+
+### bun
+
+```bash
+bun add sc-fns
+```
+
+---
+
+## TypeScript Setup
+
+`sc-fns` ships with declaration files (`.d.ts`) and declaration maps generated directly from TypeScript source code. No additional `@types/sc-fns` package is needed.
+
+For optimal subpath import resolution, verify that your `tsconfig.json` has `moduleResolution` set to either `Bundler` or `NodeNext`:
+
+```json title="tsconfig.json"
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "skipLibCheck": true
+    }
+}
+```
+
+---
+
+## Framework Integration
+
+### Next.js (App Router / Pages Router)
+
+`sc-fns` works out of the box with Next.js 13, 14, 15, and 16. Both Server Components and Client Components can import utilities directly:
+
+```tsx title="app/page.tsx"
+import { slugify } from "sc-fns/string";
+import { formatDate } from "sc-fns/date";
+
+export default function Page() {
+    const slug = slugify("Hello World from Next.js!");
+    const now = formatDate(new Date(), "YYYY-MM-DD");
+
+    return (
+        <div>
+            <h1>Post: {slug}</h1>
+            <p>Published: {now}</p>
+        </div>
+    );
+}
+```
+
+If you are using `sc-fns` inside a Turborepo monorepo workspace, specify `transpilePackages` in `next.config.ts`:
+
+```ts title="next.config.ts"
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+    transpilePackages: ["sc-fns"],
+};
+
+export default nextConfig;
+```
+
+### Vite & React / Vue / Svelte
+
+No special configuration required. Simply import functions into your components:
+
+```ts
+import { generateUUID } from "sc-fns/id";
+
+const id = generateUUID();
+```
+
+### Node.js (CommonJS & ESM)
+
+`sc-fns` provides dual builds (`dist/index.js` for ESM and `dist/index.cjs` for CommonJS):
+
+#### Modern ESM (`"type": "module"`)
+
+```ts
+import { isEmail } from "sc-fns/validation";
+
+console.log(isEmail("dev@example.com"));
+```
+
+#### Legacy CommonJS
+
+```js
+const { isEmail } = require("sc-fns/validation");
+
+console.log(isEmail("dev@example.com"));
+```

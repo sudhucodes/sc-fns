@@ -1,0 +1,124 @@
+---
+title: URL Utilities
+description: Clean helpers for building URLs, managing query parameters, and extracting domains in sc-fns/url.
+icon: Link
+---
+
+The `sc-fns/url` module provides utilities for constructing URLs, adding or removing query parameters, and extracting URL components.
+
+```ts
+import {
+    buildURL,
+    addQueryParams,
+    removeQueryParam,
+    getQueryParam,
+    getDomain,
+    getPath,
+} from "sc-fns/url";
+```
+
+---
+
+## `buildURL`
+
+Builds a normalized URL by combining a base URL, path segments, query parameter dictionary, and optional hash fragment.
+
+### Signature
+
+```ts
+function buildURL(
+    base: string,
+    options?: {
+        path?: string | string[];
+        queryParams?: Record<string, string | number | boolean | null | undefined>;
+        hash?: string;
+    },
+): string;
+```
+
+### Examples
+
+```ts
+buildURL("https://api.example.com", {
+    path: ["v1", "users"],
+    queryParams: { page: 2, limit: 50, active: true },
+    hash: "details",
+});
+// "https://api.example.com/v1/users?page=2&limit=50&active=true#details"
+```
+
+---
+
+## `addQueryParams`
+
+Appends or updates query parameters in an existing URL string while preserving existing query params.
+
+### Signature
+
+```ts
+function addQueryParams(
+    url: string,
+    params: Record<string, string | number | boolean | null | undefined>,
+): string;
+```
+
+### Examples
+
+```ts
+addQueryParams("/search?q=typescript", { filter: "trending", page: 1 });
+// "/search?q=typescript&filter=trending&page=1"
+```
+
+---
+
+## `removeQueryParam`
+
+Removes one or more parameters from a URL query string.
+
+### Signature
+
+```ts
+function removeQueryParam(url: string, params: string | string[]): string;
+```
+
+### Examples
+
+```ts
+removeQueryParam("https://example.com?a=1&b=2&c=3", "b");
+// "https://example.com?a=1&c=3"
+
+removeQueryParam("?filter=open&page=2", ["filter", "page"]);
+// ""
+```
+
+---
+
+## `getQueryParam`
+
+Extracts the value of a specific query parameter from a URL or query string.
+
+### Signature
+
+```ts
+function getQueryParam(url: string, param: string): string | null;
+```
+
+### Examples
+
+```ts
+getQueryParam("https://site.com?user=alice", "user"); // "alice"
+getQueryParam("?search=react", "missing"); // null
+```
+
+---
+
+## `getDomain` & `getPath`
+
+Extracts the domain hostname or pathname from any valid URL string.
+
+### Examples
+
+```ts
+getDomain("https://sub.domain.com:8080/api/v1"); // "sub.domain.com"
+getPath("https://domain.com/docs/guides?v=1#top"); // "/docs/guides"
+```

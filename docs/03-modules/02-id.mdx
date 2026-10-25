@@ -1,0 +1,142 @@
+---
+title: ID & Random Utilities
+description: Documentation for unique identifiers, UUIDs, short IDs, OTPs, and random number generators in sc-fns/id.
+icon: Hash
+---
+
+The `sc-fns/id` module provides cryptographically secure identifier generators and random value helpers.
+
+```ts
+import {
+    generateUUID,
+    generateShortId,
+    generateOTP,
+    randomNumber,
+    randomBoolean,
+    randomHex,
+} from "sc-fns/id";
+```
+
+---
+
+## `generateUUID`
+
+Generates an RFC 4122 version 4 UUID string. Uses native `crypto.randomUUID()` in modern runtimes, with a secure fallback for environments lacking direct support.
+
+### Signature
+
+```ts
+function generateUUID(): string;
+```
+
+### Examples
+
+```ts
+const id = generateUUID();
+// "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+```
+
+---
+
+## `generateShortId`
+
+Generates a compact, URL-safe random identifier. Useful for database primary keys, URL shorteners, or temporary session tags.
+
+### Signature
+
+```ts
+function generateShortId(
+    length?: number, // Default: 8
+    alphabet?: string, // Default: Base62 URL-safe characters
+): string;
+```
+
+### Examples
+
+```ts
+generateShortId(); // "8kP2xL9m"
+generateShortId(12); // "7vB3mK9sQ1w4"
+```
+
+---
+
+## `generateOTP`
+
+Generates a numeric One-Time Password (OTP) of specified length. Uses cryptographically secure random values when available.
+
+### Signature
+
+```ts
+function generateOTP(length?: number): string; // Default length: 6
+```
+
+### Examples
+
+```ts
+generateOTP(); // "849201"
+generateOTP(4); // "3902"
+generateOTP(8); // "71930482"
+```
+
+---
+
+## `randomNumber`
+
+Generates a pseudo-random number within an inclusive `[min, max]` range.
+
+### Signature
+
+```ts
+function randomNumber(
+    min?: number, // Default: 0
+    max?: number, // Default: 100
+    integer?: boolean, // Default: true
+): number;
+```
+
+### Examples
+
+```ts
+randomNumber(1, 10); // 7
+randomNumber(0, 1, false); // 0.4829103...
+randomNumber(100, 200); // 142
+```
+
+---
+
+## `randomBoolean`
+
+Returns a boolean value with an optional probability weighting.
+
+### Signature
+
+```ts
+function randomBoolean(chance?: number): boolean; // Default: 0.5 (50%)
+```
+
+### Examples
+
+```ts
+randomBoolean(); // true or false (50% chance)
+randomBoolean(0.8); // 80% chance of returning true
+randomBoolean(0.1); // 10% chance of returning true
+```
+
+---
+
+## `randomHex`
+
+Generates a random hexadecimal string of the specified byte length.
+
+### Signature
+
+```ts
+function randomHex(length?: number): string; // Default: 16
+```
+
+### Examples
+
+```ts
+randomHex(8); // "3f9a1b2c"
+randomHex(16); // "9e8a7c6b5d4e3f2a"
+```

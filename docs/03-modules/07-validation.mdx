@@ -1,0 +1,133 @@
+---
+title: Validation Utilities
+description: Fast validators for emails, URLs, UUIDs, JSON strings, and TypeScript type guards in sc-fns/validation.
+icon: CheckCircle
+---
+
+The `sc-fns/validation` module contains zero-dependency validators and strict TypeScript type guards.
+
+```ts
+import {
+    isEmail,
+    isURL,
+    isUUID,
+    isJSON,
+    isNumber,
+    isString,
+    isObject,
+    isArray,
+} from "sc-fns/validation";
+```
+
+---
+
+## `isEmail`
+
+Validates email addresses using standard RFC 5322 pattern matching.
+
+### Signature
+
+```ts
+function isEmail(value: unknown): value is string;
+```
+
+### Examples
+
+```ts
+isEmail("dev@sc-fns.org"); // true
+isEmail("john.doe+tag@domain.co"); // true
+isEmail("plainaddress"); // false
+isEmail("missing@domain"); // false
+```
+
+---
+
+## `isURL`
+
+Validates absolute web URLs using the native `URL` API. Supports custom protocol whitelists.
+
+### Signature
+
+```ts
+function isURL(
+    value: unknown,
+    options?: {
+        protocols?: string[]; // Default: ["http", "https"]
+        requireProtocol?: boolean; // Default: true
+    },
+): value is string;
+```
+
+### Examples
+
+```ts
+isURL("https://turbo.build/repo"); // true
+isURL("http://localhost:3000"); // true
+isURL("ftp://files.example.com", { protocols: ["ftp", "http", "https"] }); // true
+isURL("invalid-url"); // false
+```
+
+---
+
+## `isUUID`
+
+Validates whether a string matches RFC 4122 UUID format (versions 1 through 5, or all).
+
+### Signature
+
+```ts
+function isUUID(
+    value: unknown,
+    version?: 1 | 2 | 3 | 4 | 5 | "all", // Default: "all"
+): value is string;
+```
+
+### Examples
+
+```ts
+isUUID("f47ac10b-58cc-4372-a567-0e02b2c3d479"); // true
+isUUID("f47ac10b-58cc-4372-a567-0e02b2c3d479", 4); // true
+isUUID("not-a-uuid"); // false
+```
+
+---
+
+## `isJSON`
+
+Tests if a string is valid JSON syntax without crashing your process on parse failures.
+
+### Signature
+
+```ts
+function isJSON(value: unknown): value is string;
+```
+
+### Examples
+
+```ts
+isJSON('{"name": "Alice", "role": "admin"}'); // true
+isJSON("[1, 2, 3]"); // true
+isJSON('{"invalid": json}'); // false
+```
+
+---
+
+## Type Guards: `isNumber`, `isString`, `isObject`, `isArray`
+
+Strict TypeScript runtime guards that narrow unknown values safely.
+
+```ts
+// isNumber guards against NaN and Infinity
+isNumber(42); // true
+isNumber(NaN); // false
+isNumber(Infinity); // false
+
+// isObject excludes arrays and null
+isObject({ id: 1 }); // true
+isObject([1, 2]); // false
+isObject(null); // false
+
+// isArray and isString
+isArray(["a", "b"]); // true
+isString("hello"); // true
+```

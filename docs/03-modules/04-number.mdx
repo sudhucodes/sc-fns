@@ -1,0 +1,137 @@
+---
+title: Number Utilities
+description: Mathematical helpers, number formatting, clamping, rounding, and percentage utilities in sc-fns/number.
+icon: Binary
+---
+
+The `sc-fns/number` module provides precision math and formatting utilities.
+
+```ts
+import { clamp, formatNumber, roundTo, percentage, isEven, isOdd } from "sc-fns/number";
+```
+
+---
+
+## `clamp`
+
+Restricts a numeric value to lie within an inclusive `[min, max]` interval.
+
+### Signature
+
+```ts
+function clamp(value: number, min: number, max: number): number;
+```
+
+### Examples
+
+```ts
+clamp(150, 0, 100); // 100
+clamp(-25, 0, 100); // 0
+clamp(42, 0, 100); // 42
+```
+
+---
+
+## `formatNumber`
+
+Formats numbers with locale-aware thousands separators, precision, compact notations (e.g. 1.5M), or currency units using `Intl.NumberFormat`.
+
+### Signature
+
+```ts
+function formatNumber(
+    value: number,
+    options?: {
+        locale?: string;
+        decimals?: number;
+        minimumFractionDigits?: number;
+        maximumFractionDigits?: number;
+        notation?: "standard" | "scientific" | "engineering" | "compact";
+        style?: "decimal" | "percent" | "currency";
+        currency?: string;
+    },
+): string;
+```
+
+### Examples
+
+```ts
+// Locale thousands separator
+formatNumber(1234567.89);
+// "1,234,567.89" (en-US)
+
+// Compact notation (great for follower counts or views)
+formatNumber(2450000, { notation: "compact" });
+// "2.5M"
+
+formatNumber(9840, { notation: "compact" });
+// "9.8K"
+
+// Currency formatting
+formatNumber(49.99, { style: "currency", currency: "USD" });
+// "$49.99"
+
+// Fixed decimals
+formatNumber(3.1, { decimals: 2 });
+// "3.10"
+```
+
+---
+
+## `roundTo`
+
+Accurately rounds a floating-point number to a specified number of decimal places, avoiding common JavaScript floating-point errors.
+
+### Signature
+
+```ts
+function roundTo(value: number, decimals?: number): number; // Default decimals: 0
+```
+
+### Examples
+
+```ts
+roundTo(1.005, 2); // 1.01
+roundTo(3.14159265, 3); // 3.142
+roundTo(45.6); // 46
+```
+
+---
+
+## `percentage`
+
+Calculates what percentage `partial` is of `total`. Handles zero denominators safely without throwing `NaN` or `Infinity`.
+
+### Signature
+
+```ts
+function percentage(
+    partial: number,
+    total: number,
+    decimals?: number, // Default: 2
+): number;
+```
+
+### Examples
+
+```ts
+percentage(25, 100); // 25
+percentage(1, 3, 2); // 33.33
+percentage(50, 0); // 0 (Safely handles 0 divisor)
+```
+
+---
+
+## `isEven` & `isOdd`
+
+Parity checking guards for integers.
+
+### Examples
+
+```ts
+isEven(4); // true
+isEven(3); // false
+
+isOdd(7); // true
+isOdd(8); // false
+```

@@ -1,0 +1,64 @@
+---
+title: Overview
+description: A lightweight, production-ready, dependency-free TypeScript utility library designed for modern JavaScript and TypeScript environments.
+icon: BookOpen
+---
+
+## Welcome to sc-fns
+
+**`sc-fns`** is a high-performance, zero-dependency utility toolkit written from the ground up in strict TypeScript. It delivers over 60+ battle-tested utility functions organized across 11 clean module namespaces.
+
+```bash
+pnpm add sc-fns
+```
+
+---
+
+## Why sc-fns?
+
+Modern JavaScript runtimes (Node.js 18+, Bun, Deno, and modern evergreen browsers) now provide native web standards like `crypto.randomUUID`, `Intl`, `URL`, and `structuredClone`. However, day-to-day application development still requires clean, predictable helper functions for string sanitization, array manipulation, date calculations, object transformations, and input validation.
+
+Most existing utility libraries either:
+
+1. Carry heavy legacy compatibility shims and complex internal dependency chains.
+2. Force you to pull in hundreds of transitive dependencies.
+3. Lack first-class TypeScript types or proper modern ESM exports.
+
+`sc-fns` solves this with a **zero-dependency, tree-shakeable, and TypeScript-first** design.
+
+---
+
+## Core Pillars
+
+- 🚀 **Zero Runtime Dependencies**: Zero external dependencies. No supply chain vulnerabilities or unexpected bloat.
+- 💎 **100% TypeScript Strict**: Written in strict TypeScript with comprehensive generics and inline JSDoc comments.
+- 📦 **Dual ESM & CommonJS**: Full hybrid bundle support for both modern `import` and legacy Node `require()`.
+- 🌲 **Subpath Tree-Shaking**: Import only what you need from specific subpaths (e.g. `sc-fns/string`, `sc-fns/array`) to keep bundles minimal.
+- 🛡️ **Non-Mutating & Pure**: Functions never mutate your input arrays or objects in place.
+- 🌐 **Modern Web Standards**: Native web standard APIs used wherever available with cross-platform fallbacks.
+
+---
+
+## Available Modules
+
+| Module             | Subpath Import      | Description                                                               |
+| :----------------- | :------------------ | :------------------------------------------------------------------------ |
+| **String**         | `sc-fns/string`     | Slugify, word casing, whitespace normalization, masking, and truncation   |
+| **ID & Random**    | `sc-fns/id`         | RFC 4122 v4 UUID, short IDs, numeric OTP, and random number generators    |
+| **Array**          | `sc-fns/array`      | Chunking, deduplication, Fisher-Yates shuffling, grouping, and flattening |
+| **Number**         | `sc-fns/number`     | Clamping, Intl number formatting, rounding to precision, percentages      |
+| **Object**         | `sc-fns/object`     | `pick`, `omit`, `deepClone`, `deepMerge`, and clean undefined/null values |
+| **Date**           | `sc-fns/date`       | Custom date formatting, relative time calculation, calendar helpers       |
+| **Validation**     | `sc-fns/validation` | Fast validators for email, URL, UUID, JSON, and runtime type guards       |
+| **URL**            | `sc-fns/url`        | URL builders, query param serializers, domain, and path extractors        |
+| **Common & Async** | `sc-fns/common`     | `debounce`, `throttle`, `retry`, `sleep`, `timeout`, and `once`           |
+| **File**           | `sc-fns/file`       | File size formatting (KB/MB/GB), extension extractors, and MIME checks    |
+| **Browser**        | `sc-fns/browser`    | Clipboard copy, cookie management, and client-side helpers                |
+
+---
+
+## Next Steps
+
+- Check out the [Installation Guide](/docs/getting-started/installation) to install `sc-fns` in your project.
+- Read [Import Styles & Tree-Shaking](/docs/getting-started/usage) to learn how to optimize bundle size.
+- Explore the [Module API Reference](/docs/modules/string) for detailed function signatures and examples.

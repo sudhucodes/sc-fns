@@ -1,0 +1,223 @@
+---
+title: String Utilities
+description: Comprehensive documentation and code examples for sc-fns/string.
+icon: Type
+---
+
+The `sc-fns/string` module provides essential helpers for text transformations, casing conversions, sanitization, whitespace handling, and string masking.
+
+```ts
+import {
+    slugify,
+    capitalize,
+    capitalizeWords,
+    truncate,
+    removeWhitespace,
+    normalizeWhitespace,
+    randomString,
+    maskString,
+} from "sc-fns/string";
+```
+
+---
+
+## `slugify`
+
+Converts a string into an SEO-friendly, URL-safe slug. Handles Unicode diacritics/accents, special characters, and repeated delimiters.
+
+### Signature
+
+```ts
+function slugify(
+    str: string,
+    options?: {
+        delimiter?: string; // Default: "-"
+        lowercase?: boolean; // Default: true
+    },
+): string;
+```
+
+### Examples
+
+```ts
+slugify("Hello World!");
+// "hello-world"
+
+slugify("Café au Lait & Croissant");
+// "cafe-au-lait-croissant"
+
+slugify("Product Model #99", { delimiter: "_" });
+// "product_model_99"
+
+slugify("Keep UPPERCASE Title", { lowercase: false });
+// "Keep-UPPERCASE-Title"
+```
+
+---
+
+## `capitalize`
+
+Capitalizes the first character of a string while leaving the rest untouched.
+
+### Signature
+
+```ts
+function capitalize(str: string): string;
+```
+
+### Examples
+
+```ts
+capitalize("hello world"); // "Hello world"
+capitalize("typescript"); // "Typescript"
+capitalize(""); // ""
+```
+
+---
+
+## `capitalizeWords`
+
+Capitalizes the first character of each word in a string, preserving whitespace boundaries.
+
+### Signature
+
+```ts
+function capitalizeWords(str: string): string;
+```
+
+### Examples
+
+```ts
+capitalizeWords("the quick brown fox");
+// "The Quick Brown Fox"
+
+capitalizeWords("full-stack developer");
+// "Full-Stack Developer"
+```
+
+---
+
+## `truncate`
+
+Truncates a string to a maximum character length, appending a customizable ellipsis suffix if cut.
+
+### Signature
+
+```ts
+function truncate(str: string, length: number, suffix?: string): string;
+```
+
+### Parameters
+
+- `str`: The target string to truncate.
+- `length`: The maximum length of the output string (including the suffix).
+- `suffix`: The suffix to append if truncated (defaults to `...`).
+
+### Examples
+
+```ts
+truncate("A lightweight, production-ready TypeScript library", 25);
+// "A lightweight, produc..."
+
+truncate("Short text", 20);
+// "Short text"
+
+truncate("Custom suffix example", 14, " [read more]");
+// "Custom [read more]"
+```
+
+---
+
+## `removeWhitespace`
+
+Removes all whitespace characters (spaces, tabs, newlines) from a string.
+
+### Signature
+
+```ts
+function removeWhitespace(str: string): string;
+```
+
+### Examples
+
+```ts
+removeWhitespace("  user  name \t \n "); // "username"
+removeWhitespace("123 456 789"); // "123456789"
+```
+
+---
+
+## `normalizeWhitespace`
+
+Collapses multiple consecutive whitespace characters into a single space and trims leading and trailing whitespace.
+
+### Signature
+
+```ts
+function normalizeWhitespace(str: string): string;
+```
+
+### Examples
+
+```ts
+normalizeWhitespace("   hello    world  \n  from \t sc-fns  ");
+// "hello world from sc-fns"
+```
+
+---
+
+## `randomString`
+
+Generates a cryptographically strong random string of a specified length using an optional custom character set.
+
+### Signature
+
+```ts
+function randomString(
+    length: number,
+    charset?: string, // Default: alphanumeric characters [a-zA-Z0-9]
+): string;
+```
+
+### Examples
+
+```ts
+randomString(12);
+// "k9F2aP8wL1x0"
+
+randomString(6, "0123456789ABCDEF");
+// "A3F8B2"
+```
+
+---
+
+## `maskString`
+
+Masks sensitive parts of a string (such as email addresses, credit cards, or API keys) while preserving visible boundary characters.
+
+### Signature
+
+```ts
+function maskString(
+    str: string,
+    options?: {
+        maskChar?: string; // Default: "*"
+        unmaskedStart?: number; // Default: 0
+        unmaskedEnd?: number; // Default: 4
+    },
+): string;
+```
+
+### Examples
+
+```ts
+maskString("4111222233334444");
+// "************4444"
+
+maskString("user@domain.com", {
+    unmaskedStart: 2,
+    unmaskedEnd: 4,
+    maskChar: "•",
+});
+// "us•••••••••.com"
+```

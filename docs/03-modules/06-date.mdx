@@ -1,0 +1,142 @@
+---
+title: Date Utilities
+description: Lightweight date formatting, human relative time, comparisons, and arithmetic in sc-fns/date.
+icon: Calendar
+---
+
+The `sc-fns/date` module provides zero-dependency date formatting and calculations without the weight of bulky libraries.
+
+```ts
+import {
+    formatDate,
+    formatRelativeTime,
+    isToday,
+    isYesterday,
+    isTomorrow,
+    addDays,
+    subtractDays,
+    getDateDifference,
+} from "sc-fns/date";
+```
+
+---
+
+## `formatDate`
+
+Formats a `Date` object or timestamp string using familiar format tokens:
+
+| Token  | Description            | Example |
+| :----- | :--------------------- | :------ |
+| `YYYY` | 4-digit year           | `2026`  |
+| `YY`   | 2-digit year           | `26`    |
+| `MM`   | 2-digit month          | `03`    |
+| `DD`   | 2-digit day            | `09`    |
+| `HH`   | 2-digit hour (24-hour) | `14`    |
+| `hh`   | 2-digit hour (12-hour) | `02`    |
+| `mm`   | 2-digit minute         | `30`    |
+| `ss`   | 2-digit second         | `45`    |
+| `A`    | AM / PM                | `PM`    |
+
+### Signature
+
+```ts
+function formatDate(date: Date | string | number, formatStr?: string): string;
+```
+
+### Examples
+
+```ts
+const now = new Date();
+
+formatDate(now, "YYYY-MM-DD");
+// "2026-03-15"
+
+formatDate(now, "DD/MM/YYYY HH:mm:ss");
+// "15/03/2026 14:30:00"
+
+formatDate(now, "YYYY-MM-DD hh:mm A");
+// "2026-03-15 02:30 PM"
+```
+
+---
+
+## `formatRelativeTime`
+
+Calculates human-friendly relative time durations (e.g. "just now", "5 minutes ago", "in 2 hours").
+
+### Signature
+
+```ts
+function formatRelativeTime(
+    date: Date | string | number,
+    baseDate?: Date | string | number,
+    options?: { numeric?: "always" | "auto" },
+): string;
+```
+
+### Examples
+
+```ts
+formatRelativeTime(Date.now() - 1000 * 30);
+// "just now"
+
+formatRelativeTime(Date.now() - 1000 * 60 * 15);
+// "15 minutes ago"
+
+formatRelativeTime(Date.now() + 1000 * 60 * 60 * 4);
+// "in 4 hours"
+```
+
+---
+
+## Date Predicates: `isToday`, `isYesterday`, `isTomorrow`
+
+Tests calendar dates against the reference date (defaults to today).
+
+### Examples
+
+```ts
+isToday(new Date()); // true
+isYesterday(new Date(Date.now() - 86400000)); // true
+isTomorrow(new Date(Date.now() + 86400000)); // true
+```
+
+---
+
+## `addDays` & `subtractDays`
+
+Creates a new `Date` instance with days added or subtracted without mutating the original Date.
+
+### Examples
+
+```ts
+const nextWeek = addDays(new Date(), 7);
+const lastMonth = subtractDays(new Date(), 30);
+```
+
+---
+
+## `getDateDifference`
+
+Calculates the difference between two dates in days, hours, minutes, seconds, or milliseconds.
+
+### Signature
+
+```ts
+function getDateDifference(
+    d1: Date | string | number,
+    d2: Date | string | number,
+    unit?: "ms" | "seconds" | "minutes" | "hours" | "days",
+    options?: { absolute?: boolean },
+): number;
+```
+
+### Examples
+
+```ts
+const start = new Date("2026-01-01");
+const end = new Date("2026-01-11");
+
+getDateDifference(start, end, "days");
+// 10
+```

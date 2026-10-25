@@ -1,0 +1,105 @@
+---
+title: Browser Utilities
+description: Client-side helpers for clipboard interaction and cookie management in sc-fns/browser.
+icon: Globe
+---
+
+The `sc-fns/browser` module provides safe, client-side browser utilities with fallbacks for SSR environments.
+
+```ts
+import { copyToClipboard, getCookie, setCookie, deleteCookie } from "sc-fns/browser";
+```
+
+---
+
+## `copyToClipboard`
+
+Copies plain text to the user's system clipboard using `navigator.clipboard.writeText` when available, falling back to a temporary textarea element for older environments.
+
+### Signature
+
+```ts
+function copyToClipboard(text: string): Promise<boolean>;
+```
+
+### Examples
+
+```ts
+async function handleShare() {
+    const success = await copyToClipboard("https://sc-fns.dev");
+    if (success) {
+        alert("Copied to clipboard!");
+    }
+}
+```
+
+---
+
+## `getCookie`
+
+Reads a document cookie by name. Returns `null` if not found or if running in an SSR environment.
+
+### Signature
+
+```ts
+function getCookie(name: string, context?: Document | string): string | null;
+```
+
+### Examples
+
+```ts
+const token = getCookie("auth_token");
+const theme = getCookie("theme");
+```
+
+---
+
+## `setCookie`
+
+Sets a browser cookie with expiration, path, domain, secure flag, and SameSite attribute.
+
+### Signature
+
+```ts
+function setCookie(
+    name: string,
+    value: string,
+    options?: {
+        days?: number;
+        path?: string;
+        domain?: string;
+        secure?: boolean;
+        sameSite?: "Strict" | "Lax" | "None";
+    },
+    context?: Document,
+): void;
+```
+
+### Examples
+
+```ts
+setCookie("theme", "dark", { days: 30, sameSite: "Lax" });
+setCookie("session_id", "xyz", { secure: true, sameSite: "Strict" });
+```
+
+---
+
+## `deleteCookie`
+
+Deletes a browser cookie by immediately expiring it.
+
+### Signature
+
+```ts
+function deleteCookie(
+    name: string,
+    options?: { path?: string; domain?: string },
+    context?: Document,
+): void;
+```
+
+### Examples
+
+```ts
+deleteCookie("auth_token");
+```
