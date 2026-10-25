@@ -11,6 +11,7 @@ export default defineDocstraConfig({
         branch: "main",
     },
     feedback: {
+        formSyncBaseURL: "https://api.formsync.sudhucodes.com",
         enabled: true,
         formSyncFormID: "<form-sync-form-id>",
     },
