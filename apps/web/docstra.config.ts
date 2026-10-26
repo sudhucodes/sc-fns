@@ -18,7 +18,7 @@ export default defineDocstraConfig({
     navbar: {
         logo: {
             link: "/",
-            src: "/logo.svg",
+            src: "/brand/logo.svg",
             alt: "sc-fns",
             className: "h-8 w-auto",
         },

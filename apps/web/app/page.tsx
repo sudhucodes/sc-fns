@@ -76,16 +76,16 @@ export default function Page() {
         <div className="min-h-screen bg-white text-zinc-900 font-sans antialiased flex flex-col justify-between">
             {/* Top Navigation */}
             <header className="border-b border-zinc-200/80 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-                <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+                <div className="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                         <Link href="/" className="flex items-center gap-2">
                             <Image
-                                src="/logo.svg"
+                                src="/brand/logo.svg"
                                 alt="sc-fns"
                                 width={105}
                                 height={28}
                                 priority
-                                className="h-6 w-auto"
+                                className="h-8 w-auto"
                             />
                         </Link>
                         <span className="text-[11px] font-mono px-1.5 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-600">
