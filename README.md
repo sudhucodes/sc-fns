@@ -1,11 +1,16 @@
+<div align="center">
+  <picture>
+    <img src="./apps/web/app/opengraph-image.png" alt="sc-fns Logo"/>
+  </picture>
+
+[![npm](https://img.shields.io/npm/dm/sc-fns?style=flat&colorA=000000&colorB=000000)](https://npm.chart.dev/sc-fns?primary=neutral&gray=neutral&theme=dark)
+[![npm version](https://img.shields.io/npm/v/sc-fns.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/sc-fns)
+[![GitHub stars](https://img.shields.io/github/stars/sudhucodes/sc-fns?style=flat&colorA=000000&colorB=000000)](https://github.com/sudhucodes/sc-fns/stargazers)
+
 # sc-fns ⚡
 
 A lightweight, production-ready, dependency-free TypeScript utility library for JavaScript and TypeScript developers.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](<>)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](<>)
-[![Tree Shakeable](https://img.shields.io/badge/tree--shakeable-yes-success.svg)](<>)
+</div>
 
 ---
 
